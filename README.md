@@ -27,4 +27,14 @@ Projeto de estudo com a funcionalidade aprender a manipular dados com Apache Spa
 - Acese o link da ferramenta  [winutils](https://github.com/steveloughran/winutils/tree/master/hadoop-3.0.0/bin) e baixe os arquivos hadoop.dll e winutils.exe
 - Salve os arquivos no diretório $HADOOP_HOME\bin
 
-Após realizar esses procedimentos você pode
+#### Arquivos de dataframe
+
+|**Nome do Arquivo**|**Conteúdo**|
+|:--:|:--:|
+|empresas.py|Informações de empresas|
+|socios.py|Informações dos sócios|
+|estabelecimentos.py|Informações cadastrais de estabelecimentos|
+
+---
+
+Após realizar esses procedimentos você pode executar a aplicação por meio do comando spark-submit {Nome do Arquivo}
