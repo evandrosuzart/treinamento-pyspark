@@ -1,11 +1,12 @@
 # Começando o Trabalho
+
 ---
 
 Projeto de estudo com a funcionalidade aprender a manipular dados com Apache Spark
 
-##### Linguagem : Python
+## Linguagem : Python
 
-# versões de softwares necessárias
+## Versões de softwares necessárias
 
 |**biblioteca**|**Versão**|
 |:--:|:--:|
@@ -13,7 +14,7 @@ Projeto de estudo com a funcionalidade aprender a manipular dados com Apache Spa
 |Python| 3|
 |PySpark|spark-3.5.1-bin-hadoop3|
 
-# Configurando o ambiente
+## Configurando o ambiente
 
 ### Certifique-se que você instalou as bibliotecas necessárias
 
