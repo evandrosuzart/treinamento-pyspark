@@ -4,10 +4,17 @@ class EstabelecimentosProcessor:
     def __init__(self, path, columns):
         
         self.spark_utils = SparkUtils()
-        self.spark = self.spark_utils.create_spark_session()
+        self.path = path
         self.columns = columns
-        self.estabelecimentos = self.spark_utils.load_data(path, self.spark)
-        self.estabelecimentos = self.spark_utils.rename_columns(self.estabelecimentos, columns)
+        self.spark = self.spark_utils.create_spark_session()
+        
+        
+    def rename_columns(self):
+        self.estabelecimentos = self.spark_utils.rename_columns(self.estabelecimentos, self.columns)
+        
+    def load_data(self):
+        self.estabelecimentos = self.spark_utils.load_data(self.path, self.spark)
+        self.rename_columns()
 
     def convert_dates(self):
         self.estabelecimentos = self.spark_utils.convert_date_column('data_situacao_cadastral', self.estabelecimentos)

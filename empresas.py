@@ -11,10 +11,10 @@ class EmpresaProcessor:
     
     
     def rename_columns(self):
-        self.empresas = self.spark_utils.rename_columns(self.empresas, columns)
+        self.empresas = self.spark_utils.rename_columns(self.empresas, self.columns)
         
     def load_data(self):
-        self.empresas = self.spark_utils.load_data(path, self.spark)
+        self.empresas = self.spark_utils.load_data(self.path, self.spark)
         self.rename_columns()
         
     def format_capital_social(self):
