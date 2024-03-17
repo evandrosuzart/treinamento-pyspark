@@ -20,7 +20,25 @@ class DynamicDataFrame:
     def convert_double_columns(self, double_columns):
         spark_utils.log(f"DynamicDataFrame.convert_double_columns : {json.dumps(double_columns)}")
         return spark_utils.convert_double_columns(double_columns, self.data_frame)
+    
+    def load_dataframe_csv_file_with_headers(self, path):
+        return spark_utils.load_dataframe_csv_file_with_headers(self.spark, path)
+    
+    def save_dataframe_as_csv_file(self, path):
+        spark_utils.save_dataframe_as_csv_file(self.data_frame,path)
+        
+    def load_dataframe_as_parquet_file(self, path):
+        return spark_utils.load_dataframe_as_parquet_file(self.spark, path)
+        
+    def save_dataframe_as_parquet_file(self, path):
+        spark_utils.save_dataframe_as_parquet_file(self.data_frame, path)
 
+    def save_dataframe_as_orc_file(self, path):
+        spark_utils.save_dataframe_as_orc_file(self.data_frame, path)
+        
+    def load_dataframe_as_orc_file(self, path):
+        return spark_utils.load_dataframe_as_orc_file(self.spark, path)
+    
     def show_data(self):
         self.data_frame.printSchema()
         self.data_frame.show(truncate=False)
