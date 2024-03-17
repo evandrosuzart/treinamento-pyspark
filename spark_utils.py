@@ -20,6 +20,10 @@ class SparkUtils:
                 .config('spark.ui.port', '4041') \
                 .master('local[1]') \
                 .config("spark.sql.execution.arrow.pyspark.enabled", "true")\
+                .config("spark.sql.legacy.parquet.int96RebaseModeInRead", "CORRECTED")\
+                .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "CORRECTED")\
+                .config("spark.sql.legacy.parquet.datetimeRebaseModeInRead", "CORRECTED")\
+                .config("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "CORRECTED")\
                 .getOrCreate()
             self.log("SparkUtils.create_spark_session | Finalizando a criação de spark session")
             return spark
@@ -67,12 +71,61 @@ class SparkUtils:
         self.data_frame = self.data_frame.withColumn(column_name, regexp_replace(column_name, ',', '.'))
         self.data_frame = self.data_frame.withColumn(column_name, self.data_frame[column_name].cast(DoubleType()))
     
-    def save_dataframe_as_parquet_file(self):
-        print("")
+    def save_dataframe_as_parquet_file(self, data_frame, path):
+        self.log(f"SparkUtils.save_dataframe_as_parquet_file | Iniciando escrita de arquivo parquet -> {path}")
+        data_frame.write.parquet(
+            path=path,
+            mode='overwrite'
+            )
+        self.log(f"SparkUtils.save_dataframe_as_parquet_file | Iniciando escrita de arquivo parquet -> {path}")
+        
+    def load_dataframe_as_parquet_file(self, spark, path):
+        self.log(f"SparkUtils.load_dataframe_as_parquet_file | Iniciando leitura de arquivo csv -> {path}")
+        try:
+            data_frame = spark.read.parquet(path)
+            self.log(f"SparkUtils.load_dataframe_as_parquet_file | Finalizando a leitura de arquivo csv -> {path}")
+        except FileNotFoundError as  error:
+            self.log(f"SparkUtils.load_dataframe_as_parquet_file | Erro ao localizar arquivo -> {error}", level="ERROR")
+        return data_frame
     
-    def save_dataframe_as_csv_file(self):
-        print("")
+    def save_dataframe_as_csv_file(self,data_frame,path):
+        self.log(f"SparkUtils.save_dataframe_as_csv_file | Iniciando escrita de arquivo .csv -> {path}")
+        data_frame.write.csv(
+            path=path,
+            mode='overwrite',
+            sep=';',
+            header=True
+        )
+        self.log(f"SparkUtils.save_dataframe_as_csv_file | Iniciando escrita de arquivo .csv -> {path}")
         
-    def save_dataframe_as_ork_file(self):
-        print("")
+    def load_dataframe_csv_file_with_headers(self, spark, path):
+        self.log(f"SparkUtils.load_dataframe_csv_file_with_headers | Iniciando leitura de arquivo .csv -> {path}")
+        try:
+            data_frame =  spark.read.csv(
+                path,
+                sep=';',
+                inferSchema=True,
+                header=True
+            )
+            self.log(f"SparkUtils.load_dataframe_csv_file_with_headers | Finalizando a leitura de arquivo .csv -> {path}")
+        except FileNotFoundError as  error:
+            self.log(f"SparkUtils.load_dataframe_csv_file_with_headers | Erro ao localizar arquivo -> {error}", level="ERROR")
+        return data_frame
         
+        
+    def save_dataframe_as_orc_file(self, data_frame, path):
+        self.log(f"SparkUtils.save_dataframe_as_orc_file | Iniciando escrita de arquivo .orc -> {path}")
+        data_frame.write.orc(
+            path=path,
+            mode='overwrite'
+        )
+        self.log(f"SparkUtils.save_dataframe_as_orc_file | Finalizando escrita de arquivo .orc -> {path}")
+        
+    def load_dataframe_as_orc_file(self, spark, path):
+        self.log(f"SparkUtils.load_dataframe_as_orc_file | Iniciando leitura de arquivo .orc -> {path}")
+        try:
+            data_frame =  spark.read.orc(path)
+            self.log(f"SparkUtils.load_dataframe_as_orc_file | Finalizando a leitura de arquivo .orc -> {path}")
+        except FileNotFoundError as  error:
+            self.log(f"SparkUtils.load_dataframe_as_orc_file | Erro ao localizar arquivo -> {error}", level="ERROR")
+        return data_frame

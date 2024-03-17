@@ -1,4 +1,3 @@
-from pyspark.sql.functions import regexp_replace
 from dynamic_dataframe import DynamicDataFrame
 
 
@@ -12,21 +11,21 @@ columns = ['cnpj_basico', 'razao_social_nome_empresarial', 'natureza_juridica',
                     'porte_da_empresa', 'ente_federativo_responsavel']
 double_columns = ['capital_social_da_empresa']
 
-empresas_df = DynamicDataFrame(source_path,columns)
-empresas_df.data_frame = empresas_df.convert_double_columns(double_columns)
-empresas_df.show_data()
+empresas = DynamicDataFrame(source_path,columns)
+empresas.data_frame = empresas.convert_double_columns(double_columns)
+empresas.show_data()
 
-empresas_df.save_dataframe_as_csv_file(target_csv_path)
+empresas.save_dataframe_as_csv_file(target_csv_path)
 
-new_csv_df = empresas_df.load_dataframe_csv_file_with_headers(target_csv_path)
-new_csv_df.show()
+csv_data_frame = empresas.load_dataframe_csv_file_with_headers(target_csv_path)
+csv_data_frame.show()
 
-empresas_df.save_dataframe_as_parquet_file(target_parquet_path)
+empresas.save_dataframe_as_parquet_file(target_parquet_path)
 
-new_parquet_df = empresas_df.load_dataframe_as_parquet_file(target_parquet_path)
-new_parquet_df.show()
+parquet_data_frame = empresas.load_dataframe_as_parquet_file(target_parquet_path)
+parquet_data_frame.show()
 
-empresas_df.save_dataframe_as_orc_file(target_orc_path)
+empresas.save_dataframe_as_orc_file(target_orc_path)
 
-new_orc_df = empresas_df.load_dataframe_as_orc_file(target_orc_path)
-new_orc_df.show()
+orc_data_frame = empresas.load_dataframe_as_orc_file(target_orc_path)
+orc_data_frame.show()
