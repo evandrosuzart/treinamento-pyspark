@@ -80,10 +80,10 @@ class SparkUtils:
         self.log(f"SparkUtils.save_dataframe_as_parquet_file | Iniciando escrita de arquivo parquet -> {path}")
         
     def load_dataframe_as_parquet_file(self, spark, path):
-        self.log(f"SparkUtils.load_dataframe_as_parquet_file | Iniciando leitura de arquivo csv -> {path}")
+        self.log(f"SparkUtils.load_dataframe_as_parquet_file | Iniciando leitura de arquivo .parquet -> {path}")
         try:
             data_frame = spark.read.parquet(path)
-            self.log(f"SparkUtils.load_dataframe_as_parquet_file | Finalizando a leitura de arquivo csv -> {path}")
+            self.log(f"SparkUtils.load_dataframe_as_parquet_file | Finalizando a leitura de arquivo .parquet -> {path}")
         except FileNotFoundError as  error:
             self.log(f"SparkUtils.load_dataframe_as_parquet_file | Erro ao localizar arquivo -> {error}", level="ERROR")
         return data_frame

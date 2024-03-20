@@ -17,20 +17,29 @@ columns = [
     ]
 date_columns = ['data_situacao_cadastral', 'data_de_inicio_atividade', 'data_da_situacao_especial']
 
-estabelecimentos = DynamicDataFrame(source_path,columns)
-estabelecimentos.data_frame = estabelecimentos.convert_date_columns(date_columns)
-
-#estabelecimentos.save_dataframe_as_csv_file(target_csv_path)
-
-#csv_data_frame = estabelecimentos.load_dataframe_csv_file_with_headers(target_csv_path)
-#csv_data_frame.show()
-
-
+estabelecimentos = DynamicDataFrame()
+estabelecimentos.load_dataframe_csv_file_without_headers(source_path)
+estabelecimentos.rename_columns(columns)
+estabelecimentos.convert_date_columns(date_columns)
+estabelecimentos.save_dataframe_as_csv_file(target_csv_path)
 estabelecimentos.save_dataframe_as_parquet_file(target_parquet_path)
-parquet_data_frame = estabelecimentos.load_dataframe_as_parquet_file(target_parquet_path)
-parquet_data_frame.show()
+estabelecimentos.save_dataframe_as_orc_file(target_orc_path)
+estabelecimentos.end_session()
 
 
-#estabelecimentos.save_dataframe_as_orc_file(target_orc_path)
-#orc_data_frame = estabelecimentos.load_dataframe_as_orc_file(target_orc_path)
-#orc_data_frame.show()
+csv_data_frame = DynamicDataFrame()
+csv_data_frame.load_dataframe_csv_file_with_headers(target_csv_path)
+csv_data_frame.show_data()
+csv_data_frame.end_session()
+
+
+parquet_data_frame = DynamicDataFrame()
+parquet_data_frame.load_dataframe_as_parquet_file(target_parquet_path)
+parquet_data_frame.show_data()
+parquet_data_frame.end_session()
+
+
+orc_data_frame = DynamicDataFrame()
+orc_data_frame.load_dataframe_as_orc_file(target_orc_path)
+orc_data_frame.show_data()
+orc_data_frame.end_session()
