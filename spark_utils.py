@@ -3,7 +3,6 @@ from spark_session_exception import SparkSessionException
 from pyspark.sql.types import StringType
 from pyspark.sql.functions import to_date, regexp_replace
 from pyspark.sql.types import  DoubleType
-from pyspark.sql.dataframe import DataFrame
 from datetime import datetime
 import json
 
@@ -18,7 +17,7 @@ class SparkUtils:
             spark = SparkSession.builder \
                 .appName("Iniciando com Spark") \
                 .config('spark.ui.port', '4041') \
-                .master('local[1]') \
+                .master('local[4]') \
                 .config("spark.sql.execution.arrow.pyspark.enabled", "true")\
                 .config("spark.sql.legacy.parquet.int96RebaseModeInRead", "CORRECTED")\
                 .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "CORRECTED")\
@@ -73,11 +72,8 @@ class SparkUtils:
     
     def save_dataframe_as_parquet_file(self, data_frame, path):
         self.log(f"SparkUtils.save_dataframe_as_parquet_file | Iniciando escrita de arquivo parquet -> {path}")
-        data_frame.write.parquet(
-            path=path,
-            mode='overwrite'
-            )
-        self.log(f"SparkUtils.save_dataframe_as_parquet_file | Iniciando escrita de arquivo parquet -> {path}")
+        data_frame.write.parquet(path=path, mode='overwrite' )
+        self.log(f"SparkUtils.save_dataframe_as_parquet_file | Finalizando escrita de arquivo parquet -> {path}")
         
     def load_dataframe_as_parquet_file(self, spark, path):
         self.log(f"SparkUtils.load_dataframe_as_parquet_file | Iniciando leitura de arquivo .parquet -> {path}")
@@ -96,7 +92,7 @@ class SparkUtils:
             sep=';',
             header=True
         )
-        self.log(f"SparkUtils.save_dataframe_as_csv_file | Iniciando escrita de arquivo .csv -> {path}")
+        self.log(f"SparkUtils.save_dataframe_as_csv_file | Finalizando escrita de arquivo .csv -> {path}")
         
     def load_dataframe_csv_file_with_headers(self, spark, path):
         self.log(f"SparkUtils.load_dataframe_csv_file_with_headers | Iniciando leitura de arquivo .csv -> {path}")
