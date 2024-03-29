@@ -38,3 +38,8 @@ Projeto de estudo com a funcionalidade aprender a manipular dados com Apache Spa
 ---
 
 Após realizar esses procedimentos você pode executar a aplicação por meio do comando spark-submit {Nome do Arquivo}
+
+
+# Utilizando notebooks
+
+O arquivo 'notebooks/meus_exemplos_noteobook.ipynb' contém um pequeno exemplo para manipular a tabela empresas com notebook, possibilitando uma interface mais amigável para a exibição de cada tabela, você pode customizar esse arquivo caso tenha receio de alterar os outros scripts
