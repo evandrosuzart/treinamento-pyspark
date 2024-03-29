@@ -7,6 +7,8 @@ class DynamicDataFrame:
     def __init__(self ):
         self.spark = spark_utils.create_spark_session()
     
+    def set_data_frame(self,data_frame):
+        self.data_frame = data_frame
     
     def rename_columns(self, columns):
         self.data_frame = spark_utils.rename_columns(self.data_frame, columns)
